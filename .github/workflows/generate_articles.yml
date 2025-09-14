@@ -1,0 +1,41 @@
+name: Generate Plant Articles
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  generate_articles:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+      - name: Run Scrapy spider
+        run: |
+          cd app/spiders
+          scrapy crawl plants -O ../../data/plants.json
+          
+      - name: Generate articles
+        env:
+          HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}
+        run: python scripts/generate_articles.py
+        
+      - name: Commit and push if changes
+        run: |
+          git config --local user.email "mrjblack@github.com"
+          git config --local user.name "MrJBlack Bot"
+          git add data/plants.json
+          git add content/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-generated plant articles [skip ci]" && git push)

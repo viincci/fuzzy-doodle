@@ -1,0 +1,58 @@
+name: Flask Blog CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Lint with flake8
+      run: |
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --max-complexity=10 --max-line-length=127 --statistics
+    
+    - name: Format with black
+      run: |
+        black . --check
+    
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    # Add your deployment steps here
+    # Examples:
+    # - Deploy to Heroku
+    # - Deploy to AWS Elastic Beanstalk
+    # - Deploy to Google Cloud Run
+    # For now, we'll just create an artifact
+    
+    - name: Create deployment artifact
+      run: |
+        zip -r blog-site.zip . -x "*.git*" "venv/*"
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: blog-site
+        path: blog-site.zip
