@@ -1,0 +1,91 @@
+{% extends "base.html" %}{% extends 'base.html' %}
+
+
+
+{% block title %}Plant Articles{% endblock %}{% block title %}Home{% endblock %}
+
+
+
+{% block content %}{% block content %}
+
+<div class="container">    <div class="row mb-4">
+
+    <div class="row">        <div class="col">
+
+        <div class="col-lg-8 mx-auto">            <h1 class="display-4">Discover South Africa's Rare Plants</h1>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">            <p class="lead">Explore our collection of articles about unique and endangered plant species.</p>
+
+                <h1>Plant Articles</h1>        </div>
+
+                <a href="{{ url_for('create') }}" class="btn btn-success">New Article</a>    </div>
+
+            </div>
+
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+
+            {% for post in posts %}        {% for post in posts %}
+
+            <article class="card shadow mb-4">            <div class="col">
+
+                <div class="card-body">                <article class="card h-100 shadow-sm">
+
+                    <h2 class="card-title">                    {% if post.image_url %}
+
+                        <a href="{{ url_for('post', post_id=post.id) }}" class="text-decoration-none text-dark">                        <img src="{{ post.image_url }}" class="card-img-top" alt="{{ post.title }}">
+
+                            {{ post.title }}                    {% else %}
+
+                        </a>                        <img src="{{ url_for('static', filename='default-plant.jpg') }}" class="card-img-top" alt="Default plant image">
+
+                    </h2>                    {% endif %}
+
+                    {% if post.scientific_name %}                    <div class="card-body">
+
+                    <h6 class="card-subtitle mb-2 text-muted font-italic">{{ post.scientific_name }}</h6>                        <h2 class="card-title h5">
+
+                    {% endif %}                            <a href="{{ url_for('post', post_id=post.id) }}" class="text-decoration-none text-dark">
+
+                    <div class="mb-2">                                {{ post.title }}
+
+                        <span class="badge bg-success">{{ post.categories }}</span>                            </a>
+
+                        {% if post.is_ai_generated %}                        </h2>
+
+                            <span class="badge bg-info">AI Generated</span>                        <p class="card-text text-muted small">Posted on {{ post.created_at.strftime('%B %d, %Y') }}</p>
+
+                        {% endif %}                        <p class="card-text">{{ post.content[:200] }}{% if post.content|length > 200 %}...{% endif %}</p>
+
+                    </div>                        <a href="{{ url_for('post', post_id=post.id) }}" class="btn btn-outline-success">Read More</a>
+
+                    <p class="card-text text-muted small">                    </div>
+
+                        By {{ post.author }} on {{ post.created_at.strftime('%Y-%m-%d') }}                    {% if post.categories %}
+
+                    </p>                        <div class="card-footer bg-transparent">
+
+                    {% if post.image_url %}                            {% for category in post.categories.split(',') %}
+
+                    <img src="{{ post.image_url }}" class="img-fluid mb-3 rounded" alt="{{ post.title }}">                                <span class="badge bg-success me-1">{{ category.strip() }}</span>
+
+                    {% endif %}                            {% endfor %}
+
+                </div>                        </div>
+
+            </article>                    {% endif %}
+
+            {% endfor %}                </article>
+
+        </div>            </div>
+
+    </div>        {% else %}
+
+</div>            <div class="col-12">
+
+{% endblock %}                <div class="alert alert-info">
+                    No articles yet. Be the first to contribute!
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

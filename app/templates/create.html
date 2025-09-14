@@ -1,0 +1,500 @@
+{% extends "base.html" %}{% extends "base.html" %}
+
+
+
+{% block title %}New Plant Article{% endblock title %}{% block title %}New Plant Article{% endblock title %}
+
+
+
+{% block content %}{% block content %}
+
+<div class="container"><div class="container">
+
+    <div class="row">    <div class="row">
+
+        <div class="col-lg-8 mx-auto">        <div class="col-lg-8 mx-auto">
+
+            <h1 class="mb-4">New Plant Article</h1>            <h1 class="mb-4">New Plant Article</h1>
+
+            <div class="card shadow mb-4">            <div class="card shadow mb-4">
+
+                <div class="card-body">                <div class="card-body">
+
+                    <div class="mb-3">                    <div class="mb-3">
+
+                        <label class="form-label">Article Creation Mode</label>                        <label class="form-label">Article Creation Mode</label>
+
+                        <div class="form-check">                        <div class="form-check">
+
+                            <input class="form-check-input" type="radio" name="creation_mode" id="mode_manual" value="manual" checked>                            <input class="form-check-input" type="radio" name="creation_mode" id="mode_manual" value="manual" checked>
+
+                            <label class="form-check-label" for="mode_manual">                            <label class="form-check-label" for="mode_manual">
+
+                                Manual Creation                                Manual Creation
+
+                            </label>                            </label>
+
+                        </div>                        </div>
+
+                        <div class="form-check">                        <div class="form-check">
+
+                            <input class="form-check-input" type="radio" name="creation_mode" id="mode_ai" value="ai">                            <input class="form-check-input" type="radio" name="creation_mode" id="mode_ai" value="ai">
+
+                            <label class="form-check-label" for="mode_ai">                            <label class="form-check-label" for="mode_ai">
+
+                                AI Assistant                                AI Assistant
+
+                            </label>                            </label>
+
+                        </div>                        </div>
+
+                        <div class="form-check">                        <div class="form-check">
+
+                            <input class="form-check-input" type="radio" name="creation_mode" id="mode_mrjblack" value="mrjblack">                            <input class="form-check-input" type="radio" name="creation_mode" id="mode_mrjblack" value="mrjblack">
+
+                            <label class="form-check-label" for="mode_mrjblack">                            <label class="form-check-label" for="mode_mrjblack">
+
+                                MrJBlack's Priority Plants                                MrJBlack's Priority Plants
+
+                            </label>                            </label>
+
+                            <div class="form-text">Expert-curated rare South African plants with conservation status</div>                            <div class="form-text">Expert-curated rare South African plants with conservation status</div>
+
+                        </div>                        </div>
+
+                    </div>                    </div>
+
+                </div>                </div>
+
+            </div>            </div>
+
+
+
+            <div class="card shadow">            <div class="card shadow">
+
+                <div class="card-body">                <div class="card-body">
+
+                    <form method="post" id="articleForm">                    <form method="post" id="articleForm">
+
+                        <div class="mb-3">                        <div class="mb-3">
+
+                            <label for="title" class="form-label">Plant Name</label>                            <label for="title" class="form-label">Plant Name</label>
+
+                            <div class="dropdown">                            <div class="dropdown">
+
+                                <input type="text" class="form-control" name="title" id="title" required                                 <input type="text" class="form-control" name="title" id="title" required 
+
+                                       placeholder="Start typing to see suggestions..."                                        placeholder="Start typing to see suggestions..." 
+
+                                       autocomplete="off">                                       autocomplete="off">
+
+                                <ul class="dropdown-menu w-100" id="plantSuggestions">                                <ul class="dropdown-menu w-100" id="plantSuggestions">
+
+                                    <!-- Suggestions will be populated here -->                                    <!-- Suggestions will be populated here -->
+
+                                </ul>                                </ul>
+
+                            </div>                            </div>
+
+                            <div class="form-text">Start typing to see suggestions of South African plants</div>                            <div class="form-text">Start typing to see suggestions of South African plants</div>
+
+                        </div>                        </div>
+
+
+
+                        <div class="mb-3">                        <div class="mb-3">
+
+                            <label for="scientific_name" class="form-label">Scientific Name</label>                            <label for="scientific_name" class="form-label">Scientific Name</label>
+
+                            <input type="text" class="form-control" name="scientific_name" id="scientific_name">                            <input type="text" class="form-control" name="scientific_name" id="scientific_name"
+
+                            <div class="form-text">Will be auto-filled when selecting from suggestions</div>                                   placeholder="Will be auto-filled when selecting from suggestions" readonly>
+
+                        </div>                            <div class="form-text">This will be automatically filled when you select a plant from the suggestions</div>
+
+                        </div>
+
+                        <div class="mb-3">                        
+
+                            <span id="plantType" class="badge bg-success" style="display: none;"></span>                        <div class="mb-3">
+
+                        </div>                            <span class="badge bg-secondary plant-type" id="plantType"></span>
+
+                        </div>
+
+                        <div id="manualInputs">
+
+                            <div class="mb-3">                        <div class="mb-4">
+
+                                <label for="content" class="form-label">Content</label>                            <div class="form-check form-switch">
+
+                                <textarea class="form-control" name="content" id="content" rows="10"                                <input class="form-check-input" type="checkbox" name="use_ai" id="use_ai" checked>
+
+                                    placeholder="Write your article here. You can use Markdown for formatting."></textarea>                                <label class="form-check-label" for="use_ai">
+
+                            </div>                                    Use AI Research Assistant
+
+                                </label>
+
+                            <div class="mb-3">                            </div>
+
+                                <label for="categories" class="form-label">Categories</label>                            <div class="form-text">
+
+                                <input type="text" class="form-control" name="categories" id="categories"                                 Let our AI assistant research and generate an article using reliable sources
+
+                                       value="South African Plants">                            </div>
+
+                            </div>                        </div>
+
+
+
+                            <div class="mb-3">                        <div id="manualInputs" style="display: none;">
+
+                                <label for="image_url" class="form-label">Image URL</label>                            <div class="mb-3">
+
+                                <input type="url" class="form-control" name="image_url" id="image_url">                                <label for="categories" class="form-label">Categories</label>
+
+                            </div>                                <input type="text" class="form-control" name="categories" id="categories" 
+
+                        </div>                                       placeholder="e.g., Protea, Desert Plant, Endangered (comma-separated)">
+
+                            </div>
+
+                        <div id="aiPreview" class="mb-3" style="display: none;">
+
+                            <h3>Article Preview</h3>                            <div class="mb-3">
+
+                            <div id="previewContent" class="border rounded p-3 bg-light">                                <label for="image_url" class="form-label">Image URL</label>
+
+                                Preview will appear here...                                <input type="url" class="form-control" name="image_url" id="image_url" 
+
+                            </div>                                       placeholder="https://example.com/image.jpg">
+
+                            <div id="previewSources" class="mt-2 small text-muted">                            </div>
+
+                                Sources will appear here...
+
+                            </div>                            <div class="mb-3">
+
+                        </div>                                <label for="content" class="form-label">Article Content (Markdown supported)</label>
+
+                                <textarea class="form-control" name="content" id="content" rows="15"></textarea>
+
+                        <button type="submit" class="btn btn-success">Create Article</button>                                <div class="form-text">
+
+                        <button type="button" id="previewBtn" class="btn btn-outline-success" style="display: none;">                                    You can use Markdown for formatting. Add research sources and references at the bottom.
+
+                            Preview Article                                </div>
+
+                        </button>                            </div>
+
+                    </form>                        </div>
+
+                </div>
+
+            </div>                        <div id="aiPreview" class="mb-4">
+
+        </div>                            <div class="card">
+
+    </div>                                <div class="card-header bg-light">
+
+</div>                                    <h5 class="card-title mb-0">AI-Generated Preview</h5>
+
+{% endblock %}                                </div>
+
+                                <div class="card-body">
+
+{% block scripts %}                                    <div id="previewContent">
+
+<script>                                        <div class="text-center text-muted">
+
+document.addEventListener('DOMContentLoaded', function() {                                            Enter a plant name and click "Generate Preview" to see the AI-generated article
+
+    const useAiCheckbox = document.getElementById('use_ai');                                        </div>
+
+    const manualInputs = document.getElementById('manualInputs');                                    </div>
+
+    const aiPreview = document.getElementById('aiPreview');                                    <div id="sourcesContent" class="mt-3" style="display: none;">
+
+    const previewBtn = document.getElementById('previewBtn');                                        <h6>Sources:</h6>
+
+    const content = document.getElementById('content');                                        <ul id="sourcesList" class="small">
+
+    const titleInput = document.getElementById('title');                                        </ul>
+
+    const scientificNameInput = document.getElementById('scientific_name');                                    </div>
+
+    const plantTypeSpan = document.getElementById('plantType');                                </div>
+
+    const suggestionsContainer = document.getElementById('plantSuggestions');                            </div>
+
+    const creationModeInputs = document.querySelectorAll('input[name="creation_mode"]');                        </div>
+
+    let debounceTimer;
+
+                        <div class="d-grid gap-2">
+
+    // Handle creation mode changes                            <button type="button" class="btn btn-info" id="previewBtn">
+
+    creationModeInputs.forEach(input => {                                Generate Preview
+
+        input.addEventListener('change', function() {                            </button>
+
+            const mode = this.value;                            <button type="submit" class="btn btn-success">
+
+            if (mode === 'manual') {                                Publish Article
+
+                manualInputs.style.display = 'block';                            </button>
+
+                aiPreview.style.display = 'none';                        </div>
+
+                previewBtn.style.display = 'none';                    </form>
+
+            } else {                </div>
+
+                manualInputs.style.display = 'none';            </div>
+
+                aiPreview.style.display = 'block';        </div>
+
+                previewBtn.style.display = 'inline-block';    </div>
+
+            }</div>
+
+        });
+
+    });<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Plant name suggestions    const useAiCheckbox = document.getElementById('use_ai');
+
+    titleInput.addEventListener('input', function() {    const manualInputs = document.getElementById('manualInputs');
+
+        clearTimeout(debounceTimer);    const aiPreview = document.getElementById('aiPreview');
+
+        debounceTimer = setTimeout(async () => {    const previewBtn = document.getElementById('previewBtn');
+
+            const query = titleInput.value.trim();    const content = document.getElementById('content');
+
+            if (query.length < 2) {    const titleInput = document.getElementById('title');
+
+                suggestionsContainer.innerHTML = '';    const scientificNameInput = document.getElementById('scientific_name');
+
+                suggestionsContainer.classList.remove('show');    const plantTypeSpan = document.getElementById('plantType');
+
+                return;    const suggestionsContainer = document.getElementById('plantSuggestions');
+
+            }    let debounceTimer;
+
+
+
+            try {    // Plant name suggestions
+
+                const response = await fetch(`/api/plants?q=${encodeURIComponent(query)}`);    titleInput.addEventListener('input', function() {
+
+                const suggestions = await response.json();        clearTimeout(debounceTimer);
+
+        debounceTimer = setTimeout(async () => {
+
+                if (suggestions.length > 0) {            const query = titleInput.value.trim();
+
+                    suggestionsContainer.innerHTML = suggestions.map(plant => `            if (query.length < 2) {
+
+                        <li>                suggestionsContainer.innerHTML = '';
+
+                            <button type="button" class="dropdown-item"                 suggestionsContainer.classList.remove('show');
+
+                                    data-scientific-name="${plant.scientific_name}"                return;
+
+                                    data-type="${plant.type}">            }
+
+                                <strong>${plant.common_name}</strong><br>
+
+                                <small class="text-muted">${plant.scientific_name}</small>            try {
+
+                            </button>                const response = await fetch(`/api/plants?q=${encodeURIComponent(query)}`);
+
+                        </li>                const suggestions = await response.json();
+
+                    `).join('');
+
+                    suggestionsContainer.classList.add('show');                if (suggestions.length > 0) {
+
+                } else {                    suggestionsContainer.innerHTML = suggestions.map(plant => `
+
+                    suggestionsContainer.innerHTML = `                        <li>
+
+                        <li><span class="dropdown-item text-muted">No matching plants found</span></li>                            <button type="button" class="dropdown-item" 
+
+                    `;                                    data-scientific-name="${plant.scientific_name}"
+
+                    suggestionsContainer.classList.add('show');                                    data-type="${plant.type}">
+
+                }                                <strong>${plant.common_name}</strong><br>
+
+            } catch (error) {                                <small class="text-muted">${plant.scientific_name}</small>
+
+                console.error('Error fetching suggestions:', error);                            </button>
+
+            }                        </li>
+
+        }, 300);                    `).join('');
+
+    });                    suggestionsContainer.classList.add('show');
+
+                } else {
+
+    // Handle suggestion selection                    suggestionsContainer.innerHTML = `
+
+    suggestionsContainer.addEventListener('click', function(e) {                        <li><span class="dropdown-item text-muted">No matching plants found</span></li>
+
+        const button = e.target.closest('button');                    `;
+
+        if (button) {                    suggestionsContainer.classList.add('show');
+
+            titleInput.value = button.querySelector('strong').textContent;                }
+
+            scientificNameInput.value = button.dataset.scientificName;            } catch (error) {
+
+            plantTypeSpan.textContent = button.dataset.type;                console.error('Error fetching suggestions:', error);
+
+            plantTypeSpan.style.display = 'inline-block';            }
+
+            suggestionsContainer.classList.remove('show');        }, 300);
+
+        }    });
+
+    });
+
+    // Handle suggestion selection
+
+    // Close suggestions when clicking outside    suggestionsContainer.addEventListener('click', function(e) {
+
+    document.addEventListener('click', function(e) {        const button = e.target.closest('button');
+
+        if (!titleInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {        if (button) {
+
+            suggestionsContainer.classList.remove('show');            titleInput.value = button.querySelector('strong').textContent;
+
+        }            scientificNameInput.value = button.dataset.scientificName;
+
+    });            plantTypeSpan.textContent = button.dataset.type;
+
+            plantTypeSpan.style.display = 'inline-block';
+
+    // Preview button handler            suggestionsContainer.classList.remove('show');
+
+    previewBtn.addEventListener('click', async function() {        }
+
+        const title = titleInput.value.trim();    });
+
+        const scientific_name = scientificNameInput.value.trim();
+
+        const mode = document.querySelector('input[name="creation_mode"]:checked').value;    // Close suggestions when clicking outside
+
+            document.addEventListener('click', function(e) {
+
+        if (!title) {        if (!titleInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+
+            alert('Please enter a plant name');            suggestionsContainer.classList.remove('show');
+
+            return;        }
+
+        }    });
+
+
+
+        try {    useAiCheckbox.addEventListener('change', function() {
+
+            const response = await fetch('/preview', {        manualInputs.style.display = this.checked ? 'none' : 'block';
+
+                method: 'POST',        aiPreview.style.display = this.checked ? 'block' : 'none';
+
+                headers: {        previewBtn.style.display = this.checked ? 'block' : 'none';
+
+                    'Content-Type': 'application/json'        if (!this.checked) {
+
+                },            content.required = true;
+
+                body: JSON.stringify({        }
+
+                    title,    });
+
+                    scientific_name,
+
+                    creation_mode: mode    previewBtn.addEventListener('click', async function() {
+
+                })        const title = document.getElementById('title').value;
+
+            });        const scientific_name = document.getElementById('scientific_name').value;
+
+
+
+            const data = await response.json();        if (!title) {
+
+            if (data.error) {            alert('Please enter a plant name first');
+
+                throw new Error(data.error);            return;
+
+            }        }
+
+
+
+            document.getElementById('previewContent').innerHTML = data.content;        previewBtn.disabled = true;
+
+            document.getElementById('previewSources').innerHTML =         previewBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Generating...';
+
+                '<strong>Sources:</strong><br>' + data.sources.map(s => `- ${s}`).join('<br>');
+
+                    try {
+
+            // Show preview section            const response = await fetch('/preview', {
+
+            aiPreview.style.display = 'block';                method: 'POST',
+
+        } catch (error) {                headers: {
+
+            alert('Error generating preview: ' + error.message);                    'Content-Type': 'application/x-www-form-urlencoded',
+
+        }                },
+
+    });                body: new URLSearchParams({
+
+});                    title: title,
+
+</script>                    scientific_name: scientific_name
+
+{% endblock %}                })
+            });
+
+            const data = await response.json();
+            
+            if (response.ok) {
+                document.getElementById('previewContent').innerHTML = data.content;
+                
+                const sourcesList = document.getElementById('sourcesList');
+                sourcesList.innerHTML = '';
+                data.sources.forEach(source => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="${source}" target="_blank">${source}</a>`;
+                    sourcesList.appendChild(li);
+                });
+                
+                document.getElementById('sourcesContent').style.display = 'block';
+            } else {
+                throw new Error(data.error || 'Failed to generate preview');
+            }
+        } catch (error) {
+            document.getElementById('previewContent').innerHTML = `
+                <div class="alert alert-danger">
+                    Error generating preview: ${error.message}
+                </div>
+            `;
+        } finally {
+            previewBtn.disabled = false;
+            previewBtn.innerHTML = 'Generate Preview';
+        }
+    });
+});
+</script>
+{% endblock content %}

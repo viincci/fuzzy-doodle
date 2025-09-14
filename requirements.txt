@@ -1,0 +1,17 @@
+flask==3.0.0Flask==3.0.0
+
+flask-sqlalchemy==3.1.1Flask-SQLAlchemy==3.1.1
+
+markdown2==2.4.10markdown2==2.4.10
+
+wikipedia-api==0.6.0python-dotenv==1.0.0
+
+fuzzywuzzy==0.18.0gunicorn==21.2.0
+
+python-Levenshtein==0.27.1pytest==7.4.2
+black==23.9.1
+flake8==6.1.0
+requests==2.31.0
+wikipedia-api==0.6.0
+beautifulsoup4==4.12.2
+python-dotenv==1.0.0

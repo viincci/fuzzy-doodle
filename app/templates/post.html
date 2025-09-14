@@ -1,0 +1,111 @@
+{% extends "base.html" %}{% extends 'base.html' %}
+
+
+
+{% block title %}{{ post.title }}{% endblock %}{% block title %}{{ post.title }}{% endblock %}
+
+
+
+{% block content %}{% block content %}
+
+<div class="container">    <article class="bg-white p-4 rounded shadow">
+
+    <div class="row">        <header class="mb-4">
+
+        <div class="col-lg-8 mx-auto">            {% if post.image_url %}
+
+            <article class="card shadow">                <img src="{{ post.image_url }}" class="img-fluid rounded mb-4" alt="{{ post.title }}">
+
+                <div class="card-body">            {% endif %}
+
+                    <h1 class="card-title">{{ post.title }}</h1>            
+
+                    {% if post.scientific_name %}            <h1 class="display-4 mb-3">{{ post.title }}</h1>
+
+                    <h4 class="card-subtitle mb-3 text-muted font-italic">{{ post.scientific_name }}</h4>            {% if post.scientific_name %}
+
+                    {% endif %}                <h2 class="h5 text-muted fst-italic mb-3">{{ post.scientific_name }}</h2>
+
+                                {% endif %}
+
+                    <div class="mb-3">            
+
+                        <span class="badge bg-success">{{ post.categories }}</span>            <div class="mb-3">
+
+                        {% if post.is_ai_generated %}                {% if post.categories %}
+
+                            <span class="badge bg-info">AI Generated</span>                    {% for category in post.categories.split(',') %}
+
+                        {% endif %}                        <span class="badge bg-success me-1">{{ category.strip() }}</span>
+
+                    </div>                    {% endfor %}
+
+                                    {% endif %}
+
+                    <p class="text-muted">            </div>
+
+                        By {{ post.author }} on {{ post.created_at.strftime('%Y-%m-%d') }}            
+
+                    </p>            <div class="text-muted">
+
+                <i class="far fa-calendar-alt"></i> 
+
+                    {% if post.image_url %}                Posted on {{ post.created_at.strftime('%B %d, %Y') }}
+
+                    <img src="{{ post.image_url }}" class="img-fluid mb-4 rounded" alt="{{ post.title }}">            </div>
+
+                    {% endif %}        </header>
+
+
+
+                    <div class="markdown-content">        <div class="content">
+
+                        {{ content|safe }}            {{ content|safe }}
+
+                    </div>        </div>
+
+
+
+                    {% if source_urls %}        {% if post.references %}
+
+                    <div class="mt-4">            <hr class="my-4">
+
+                        <h5>Sources:</h5>            <div class="references">
+
+                        <ul class="list-unstyled">                <h3 class="h5">References and Further Reading</h3>
+
+                            {% for url in source_urls %}                <ul class="list-unstyled">
+
+                            <li><a href="{{ url }}" target="_blank" rel="noopener noreferrer">{{ url }}</a></li>                    {% for ref in post.references.split('\n') %}
+
+                            {% endfor %}                        {% if ref.strip() %}
+
+                        </ul>                            <li class="mb-2">
+
+                    </div>                                <i class="fas fa-link text-muted me-2"></i>
+
+                    {% endif %}                                {{ ref|safe }}
+
+                </div>                            </li>
+
+            </article>                        {% endif %}
+
+                    {% endfor %}
+
+            <div class="mt-4">                </ul>
+
+                <a href="{{ url_for('index') }}" class="btn btn-outline-success">&larr; Back to Articles</a>            </div>
+
+            </div>        {% endif %}
+
+        </div>    </article>
+
+    </div>
+
+</div>    <div class="mt-4">
+
+{% endblock %}        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Plants List
+        </a>
+    </div>
+{% endblock %}
